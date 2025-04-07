@@ -12,13 +12,13 @@ The summary report provides a high-level overview of the test coverage for your 
 *   **% Funcs:** The percentage of functions in the contract that are called by your tests.
 *   **% Lines:** The percentage of executable lines in the contract that are covered by your tests. This is similar to statement coverage but excludes things like comments and blank lines.
 
-| File | % Stmts | % Branch | % Funcs | % Lines |
-|---|---|---|---|---|
-| contracts/GovernanceContract.sol | 80.85 | 82.61 | 66.67 | 85.29 |
-| contracts/IncomeManagementContract.sol | 100.0 | 100.0 | 100.0 | 100.0 |
-| contracts/Lock.sol | 100.0 | 100.0 | 100.0 | 100.0 |
-| contracts/MembershipContract.sol | 100.0 | 100.0 | 100.0 | 100.0 |
-| contracts/PaymentContract.sol | 100.0 | 100.0 | 100.0 | 100.0 |
+| File | % Stmts | Stmts | % Branch | Branch | % Funcs | Funcs | % Lines | Lines |
+|---|---|---|---|---|---|---|---|---|
+| contracts/GovernanceContract.sol | 80.85 | 38/47 | 82.61 | 19/23 | 66.67 | 8/12 | 85.29 | 58/68 |
+| contracts/IncomeManagementContract.sol | 100.0 | 16/16 | 100.0 | 11/11 | 100.0 | 4/4 | 100.0 | 20/20 |
+| contracts/Lock.sol | 100.0 | 5/5 | 100.0 | 3/3 | 100.0 | 2/2 | 100.0 | 7/7 |
+| contracts/MembershipContract.sol | 100.0 | 16/16 | 100.0 | 10/10 | 100.0 | 7/7 | 100.0 | 25/25 |
+| contracts/PaymentContract.sol | 100.0 | 5/5 | 100.0 | 2/2 | 100.0 | 4/4 | 100.0 | 6/6 |
 
 ## Detailed HTML Report
 
