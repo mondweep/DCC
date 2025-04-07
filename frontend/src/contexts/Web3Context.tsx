@@ -26,7 +26,7 @@ interface Web3ContextType {
 }
 
 // Create the context with a default value
-const Web3Context = createContext<Web3ContextType | undefined>(undefined);
+export const Web3Context = createContext<Web3ContextType | undefined>(undefined);
 
 // Define the provider component props
 interface Web3ProviderProps {
