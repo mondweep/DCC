@@ -9,17 +9,25 @@ The Decentralised Consulting Collective (DCC) is a consultancy model designed to
 The project is currently under active development. Here's a summary of the progress:
 
 *   **Smart Contracts (`contracts/`)**:
-    *   Core contracts (`GovernanceContract`, `MembershipContract`, `IncomeManagementContract`, `PaymentContract`) have been partially implemented using Test-Driven Development (TDD).
-    *   Key features covered include proposal creation, voting mechanisms, execution state tracking, basic membership joining, consultant rate setting, and initial payment reception logic.
+    *   Core contracts (`GovernanceContract`, `MembershipContract`, `IncomeManagementContract`, `PaymentContract`) have been implemented using Test-Driven Development (TDD).
+    *   TDD covers core features including proposal creation/voting/execution, membership joining/management, consultant rate setting, and basic payment reception/distribution logic.
     *   Passing tests demonstrating current functionality can be found in `contracts/test/`.
 *   **Frontend (`frontend/`)**:
-    *   A basic frontend application has been scaffolded using React, Vite, TypeScript, and Tailwind CSS.
-    *   Includes basic wallet connection (MetaMask) functionality and foundational component structures.
-*   **Testnet (`testnet/`)**:
+    *   A frontend application has been built using React, Vite, TypeScript, and Tailwind CSS.
+    *   Features include MetaMask wallet connection, a `Web3Context` for managing blockchain interactions, and basic components like `ProposalList`, `CreateProposal`, and a 'Join Collective' button stub.
+*   **Testnet Infrastructure (`testnet/`)**:
     *   A local Proof-of-Authority (PoA) testnet infrastructure is defined using Docker and Geth.
-    *   Setup scripts and configuration files are available for building and running the testnet nodes. See `design/dcc_testnet_setup.md` for details.
+    *   Includes `Dockerfile`, `genesis.json`, and `entrypoint.sh` for building and running the testnet nodes. See `design/dcc_testnet_setup.md` for details.
 *   **Supporting Documents**:
     *   Initial requirements, specifications, and design documents are available in the `requirements/`, `specs/`, and `design/` directories respectively.
+
+### Known Issues: Local Geth Testnet
+
+**IMPORTANT:** We are currently experiencing persistent difficulties getting the local Geth sealer node (configured via Docker in `testnet/`) to reliably seal blocks. Various configurations (Geth v1.10.25/v1.10.26, different flags, manual miner start attempts) have been tried without consistent success within the Docker environment.
+
+**Impact:** This issue currently **prevents the deployment of smart contracts** to the local testnet and blocks full end-to-end testing of the application.
+
+**Next Steps:** Resolving this Geth configuration issue or potentially switching to an alternative local blockchain environment (e.g., Ganache) is a high-priority next step required for further development and testing.
 
 ## Setup & Running Instructions
 
@@ -45,12 +53,13 @@ The project is currently under active development. Here's a summary of the progr
     3.  Build the Docker image: `docker build -t dcc-testnet ./testnet`
     4.  Run the bootnode container.
     5.  Run the sealer node container.
-    6.  Deploy contracts to the local testnet:
+    6.  **Deploy contracts to the local testnet:**
         ```bash
         cd contracts
         npx hardhat run scripts/deploy.js --network localGeth
         ```
         *(Ensure `hardhat.config.js` has the `localGeth` network configured correctly)*
+        **Note:** This step is currently **blocked** due to the Geth sealer node issues mentioned in the "Known Issues" section above.
 
 ### 3. Frontend
 
@@ -61,7 +70,7 @@ The project is currently under active development. Here's a summary of the progr
     ```
 *   **Configure Environment:**
     1.  Create a `.env` file in the `frontend/` directory (`frontend/.env`).
-    2.  Add the deployed contract addresses to this file, prefixed with `VITE_`:
+    2.  Add the deployed contract addresses (once deployment is possible) and network details to this file, prefixed with `VITE_`:
         ```dotenv
         VITE_GOVERNANCE_CONTRACT_ADDRESS=0x...
         VITE_MEMBERSHIP_CONTRACT_ADDRESS=0x...
@@ -69,12 +78,12 @@ The project is currently under active development. Here's a summary of the progr
         VITE_PAYMENT_CONTRACT_ADDRESS=0x...
         VITE_NETWORK_CHAIN_ID=YOUR_CHAIN_ID # e.g., 1337 for default Hardhat, or your Geth chain ID
         ```
-        *(Replace `0x...` with the actual addresses output during deployment and `YOUR_CHAIN_ID` with the correct chain ID for your local Geth network)*
+        *(Replace `0x...` with the actual addresses output during deployment and `YOUR_CHAIN_ID` with the correct chain ID for your local network)*
 *   **Run Development Server:**
     ```bash
     npm run dev
     ```
-    The application should be accessible at `http://localhost:5173` (or the port specified by Vite).
+    The application should be accessible at `http://localhost:5173` (or the port specified by Vite). You can interact with the basic UI, but contract interactions will fail until deployment is successful.
 
 ### 4. MetaMask Configuration
 
@@ -83,12 +92,13 @@ The project is currently under active development. Here's a summary of the progr
     *   **New RPC URL:** `http://localhost:8545` (or the RPC port exposed by your Geth node)
     *   **Chain ID:** The Chain ID used in your `testnet/genesis.json` and configured in `frontend/.env`.
     *   **Currency Symbol:** ETH (optional)
-*   Import the sealer account into MetaMask using the private key from `testnet/sealer_key.txt` to interact with deployed contracts.
+*   Import the sealer account into MetaMask using the private key from `testnet/sealer_key.txt` to interact with deployed contracts (once deployed).
 
 ## Next Steps
 
-*   Complete the TDD implementation for all smart contract features outlined in the specifications.
-*   Build out the frontend user interface and logic for interacting with the smart contracts (proposals, voting, membership management, etc.).
+*   **Resolve local testnet issues:** Investigate and fix the Geth sealer node problem within Docker or switch to an alternative like Ganache to enable contract deployment and testing. **(High Priority)**
+*   Complete the TDD implementation for any remaining smart contract features outlined in the specifications.
+*   Build out the frontend user interface and logic for interacting with the smart contracts (proposals, voting, membership management, payment flows, etc.) once deployment is possible.
 *   Develop a backend API if required for off-chain data management or more complex operations.
-*   Refine testnet setup and deployment scripts.
-*   Expand documentation.
+*   Refine deployment scripts for the chosen testnet/mainnet environment.
+*   Expand documentation, including user guides and API references.
