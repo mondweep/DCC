@@ -43,11 +43,11 @@ graph TD
     end
 
     subgraph "DCC Platform"
-        Frontend[Frontend SPA<br>(React, Tailwind, ethers.js)]
-        BackendAPI[Backend API<br>(Node.js, Express)]
+        Frontend[Frontend SPA<br> :React, Tailwind, ethers.js]
+        BackendAPI[Backend API<br> :Node.js, Express]
         DB[(Off-Chain DB<br>PostgreSQL)]
         subgraph "Blockchain Network (Local Hardhat Node)"
-            BCNode[Blockchain Node<br>(Hardhat)]
+            BCNode[Blockchain Node<br>Hardhat]
             subgraph "Smart Contracts (Solidity)"
                 GovSC[Governance Contract]
                 IncomeSC[Income Management Contract]
