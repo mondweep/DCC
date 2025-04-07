@@ -4,24 +4,33 @@
 
 The Decentralised Consulting Collective (DCC) is a consultancy model designed to empower experienced professionals seeking flexible work opportunities. It leverages smart contract technology for decentralised governance, fair pay, transparent income management, and democratic decision-making within the framework of a registered company in England and Wales. The goal is to create a collaborative, equitable, and efficient platform for consultants and clients.
 
-## Current Status
+## Current Status (as of April 7, 2025)
 
-The project is currently under active development. Here's a summary of the progress:
+The project is currently under active development. 43 unit tests are passing, covering the core functionalities of the smart contracts.
+
+**Completed and Tested Functionality:**
 
 *   **Smart Contracts (`contracts/`)**:
-    *   Core contracts (`GovernanceContract`, `MembershipContract`, `IncomeManagementContract`, `PaymentContract`) have been implemented using Test-Driven Development (TDD).
-    *   TDD covers core features including proposal creation/voting/execution, membership joining/management, consultant rate setting, and basic payment reception/distribution logic.
-    *   Passing tests demonstrating current functionality can be found in `contracts/test/`.
+    *   Core contracts (`GovernanceContract`, `MembershipContract`, `IncomeManagementContract`, `PaymentContract`) have been implemented using Test-Driven Development (TDD). TDD covers core features including proposal creation/voting/execution, membership joining/management, consultant rate setting, and basic payment reception/distribution logic.
+*   Passing tests demonstrating current functionality can be found in `contracts/test/`.
 *   **Frontend (`frontend/`)**:
     *   A frontend application has been built using React, Vite, TypeScript, and Tailwind CSS.
     *   Features include MetaMask wallet connection, a `Web3Context` for managing blockchain interactions, and basic components like `ProposalList`, `CreateProposal`, and a 'Join Collective' button stub.
-*   **Testnet Infrastructure (`testnet/`)**:
     *   A local Proof-of-Authority (PoA) testnet infrastructure is defined using Docker and Geth.
     *   Includes `Dockerfile`, `genesis.json`, and `entrypoint.sh` for building and running the testnet nodes. See `design/dcc_testnet_setup.md` for details.
 *   **Supporting Documents**:
     *   Initial requirements, specifications, and design documents are available in the `requirements/`, `specs/`, and `design/` directories respectively.
 
-### Known Issues: Local Geth Testnet
+**Remaining Work:**
+
+The following tasks remain to be completed, as detailed in the unit test plan (`specs/dcc_unit_test_plan.md`):
+
+*   Implement and test founder special rights and expiry logic.
+*   Implement and test proposal execution failure handling.
+*   Refine and expand quorum logic testing.
+*   Add/Manage Non-Voting Members
+
+## Known Issues: Local Geth Testnet
 
 **IMPORTANT:** We are currently experiencing persistent difficulties getting the local Geth sealer node (configured via Docker in `testnet/`) to reliably seal blocks. Various configurations (Geth v1.10.25/v1.10.26, different flags, manual miner start attempts) have been tried without consistent success within the Docker environment.
 

@@ -10,18 +10,18 @@ describe("GovernanceContract", function () {
     const [deployer, member2, nonMember] = await ethers.getSigners();
 
     // 2. Deploy dependent contracts first
+    const PaymentContractFactory = await ethers.getContractFactory("PaymentContract");
+    // Assuming PaymentContract might also need initial setup/owner
+    const paymentContract = await PaymentContractFactory.deploy(deployer.address);
+
     const IncomeManagementContractFactory = await ethers.getContractFactory("IncomeManagementContract");
     const initialIncomePercentage = 2000; // 20%
     // Deployer is initial owner of IncomeManagementContract
-    const incomeManagementContract = await IncomeManagementContractFactory.deploy(deployer.address, initialIncomePercentage);
+    const incomeManagementContract = await IncomeManagementContractFactory.deploy(deployer.address, initialIncomePercentage, await paymentContract.getAddress());
 
     const MembershipContractFactory = await ethers.getContractFactory("MembershipContract");
     // Deployer is initial owner (founder) of MembershipContract
     const membershipContract = await MembershipContractFactory.deploy(deployer.address, await incomeManagementContract.getAddress());
-
-    const PaymentContractFactory = await ethers.getContractFactory("PaymentContract");
-    // Assuming PaymentContract might also need initial setup/owner
-    const paymentContract = await PaymentContractFactory.deploy(/* constructor args, potentially deployer.address */);
 
     // 3. Deploy GovernanceContract
     const GovernanceContractFactory = await ethers.getContractFactory("GovernanceContract");
