@@ -1,0 +1,362 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for contracts/IncomeManagementContract.sol</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../prettify.css" />
+    <link rel="stylesheet" href="../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../index.html">all files</a> / <a href="index.html">contracts/</a> IncomeManagementContract.sol
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>16/16</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">50% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>11/22</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>4/4</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>20/20</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line high'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.20;
+&nbsp;
+import "@openzeppelin/contracts/access/Ownable.sol";
+import "./PaymentContract.sol"; // Import PaymentContract
+&nbsp;
+// Inherit Ownable for access control on setter function
+contract IncomeManagementContract is Ownable {
+&nbsp;
+    // --- Constants ---
+    uint256 public constant MAX_BASIS_POINTS = 10000; // For percentage calculations (e.g., 20% = 2000)
+&nbsp;
+    // --- State Variables ---
+    // Percentage of income allocated to the company, represented in basis points (e.g., 2000 = 20%)
+    uint256 public companyIncomePercentage;
+    PaymentContract public paymentContract; // Store PaymentContract address
+&nbsp;
+    // --- Events ---
+    event CompanyIncomePercentageSet(uint256 oldPercentage, uint256 newPercentage);
+    event PaymentReceived(address indexed from, uint256 amount);
+&nbsp;
+    // --- Constructor ---
+    constructor(
+        address initialOwner,
+        uint256 _initialCompanyIncomePercentage,
+        address _paymentContractAddress
+    ) Ownable(initialOwner) {
+        <span class="missing-if-branch" title="else path not taken" >E</span>require(_initialCompanyIncomePercentage &lt;= MAX_BASIS_POINTS, "IncomeMgmt: Initial percentage exceeds max");
+        <span class="missing-if-branch" title="else path not taken" >E</span>require(_paymentContractAddress != address(0), "IncomeMgmt: Invalid PaymentContract address");
+        companyIncomePercentage = _initialCompanyIncomePercentage;
+        paymentContract = PaymentContract(_paymentContractAddress); // Store PaymentContract
+    }
+&nbsp;
+    // --- Percentage Management (Governance Controlled) ---
+&nbsp;
+    /**
+     * @notice Gets the current company income allocation percentage (in basis points).
+     */
+    function getCompanyIncomePercentage() public view returns (uint256) {
+        return companyIncomePercentage;
+    }
+&nbsp;
+    /**
+     * @notice Sets the company income allocation percentage (in basis points).
+     * @dev Can only be called by the current owner (initially the deployer, later the Governance contract).
+     * @param _newPercentage The new percentage in basis points (e.g., 2500 for 25%).
+     */
+    function setCompanyIncomePercentage(uint256 _newPercentage) public <span class="missing-if-branch" title="else path not taken" >E</span>onlyOwner {
+        <span class="missing-if-branch" title="else path not taken" >E</span>require(_newPercentage &lt;= MAX_BASIS_POINTS, "IncomeMgmt: New percentage exceeds max");
+        uint256 oldPercentage = companyIncomePercentage;
+        companyIncomePercentage = _newPercentage;
+        emit CompanyIncomePercentageSet(oldPercentage, _newPercentage);
+    }
+&nbsp;
+    // --- Placeholder functions for core logic (to be implemented via TDD) ---
+&nbsp;
+    /**
+     * @notice Receives payments from clients.
+     */
+    receive() external payable {
+        // Emit event for received payment
+        emit PaymentReceived(msg.sender, msg.value);
+        // TODO: Add further logic (recording, triggering distribution) later
+    }
+&nbsp;
+    /**
+     * @notice Distributes income for a specific consultant's work from the contract balance.
+     * @dev Assumes the payment for this work is already in the contract. Calculates payout, retains company share, pays consultant.
+     * @param consultant The address of the consultant to pay.
+     * @param workUnits Units of work completed by the consultant.
+     */
+    function distributeIncomeForConsultant(address consultant, uint256 workUnits) public payable <span class="missing-if-branch" title="else path not taken" >E</span>onlyOwner { // Made payable for flexibility, restrict access
+        <span class="missing-if-branch" title="else path not taken" >E</span>require(consultant != address(0), "IncomeMgmt: Invalid consultant address");
+        <span class="missing-if-branch" title="else path not taken" >E</span>require(workUnits &gt; 0, "IncomeMgmt: Work units must be positive");
+&nbsp;
+        // 1. Calculate consultant payout using PaymentContract
+        uint256 consultantPayout = paymentContract.calculatePayout(consultant, workUnits);
+        <span class="missing-if-branch" title="else path not taken" >E</span>require(consultantPayout &gt; 0, "IncomeMgmt: Calculated payout is zero");
+&nbsp;
+        // 2. Infer total payment needed (payout / consultant percentage)
+        // consultantPayout = totalPayment * (1 - companyPercentage/10000)
+        // totalPayment = consultantPayout * 10000 / (10000 - companyPercentage)
+        <span class="missing-if-branch" title="else path not taken" >E</span>require(MAX_BASIS_POINTS &gt; companyIncomePercentage, "IncomeMgmt: Company percentage cannot be 100%"); // Avoid division by zero
+        uint256 impliedTotalPayment = (consultantPayout * MAX_BASIS_POINTS) / (MAX_BASIS_POINTS - companyIncomePercentage);
+&nbsp;
+        // 3. Calculate company share based on implied total payment
+        uint256 companyShare = (impliedTotalPayment * companyIncomePercentage) / MAX_BASIS_POINTS;
+&nbsp;
+        // 4. Verify sufficient balance exists in the contract to cover both shares
+        <span class="missing-if-branch" title="else path not taken" >E</span>require(address(this).balance &gt;= (consultantPayout + companyShare), "IncomeMgmt: Insufficient balance for distribution");
+&nbsp;
+        // 5. Transfer payout to consultant
+        (bool success, ) = consultant.call{value: consultantPayout}("");
+        <span class="missing-if-branch" title="else path not taken" >E</span>require(success, "IncomeMgmt: Consultant payment failed");
+&nbsp;
+        // 6. Company share is implicitly retained in the contract balance.
+        // TODO: Add event for distribution
+    }
+&nbsp;
+}</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Apr 07 2025 22:47:42 GMT+0100 (British Summer Time)
+</div>
+</div>
+<script src="../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../sorter.js"></script>
+</body>
+</html>

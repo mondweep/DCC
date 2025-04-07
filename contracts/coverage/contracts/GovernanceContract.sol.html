@@ -1,0 +1,827 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for contracts/GovernanceContract.sol</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../prettify.css" />
+    <link rel="stylesheet" href="../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../index.html">all files</a> / <a href="index.html">contracts/</a> GovernanceContract.sol
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">80.85% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>38/47</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">60.87% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>28/46</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">66.67% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>8/12</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">85.29% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>58/68</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line high'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">14×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">13×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">13×</span>
+<span class="cline-any cline-yes">13×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">13×</span>
+<span class="cline-any cline-yes">13×</span>
+<span class="cline-any cline-yes">13×</span>
+<span class="cline-any cline-yes">13×</span>
+<span class="cline-any cline-yes">13×</span>
+<span class="cline-any cline-yes">13×</span>
+<span class="cline-any cline-yes">13×</span>
+<span class="cline-any cline-yes">13×</span>
+<span class="cline-any cline-yes">13×</span>
+<span class="cline-any cline-yes">13×</span>
+<span class="cline-any cline-yes">13×</span>
+<span class="cline-any cline-yes">13×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">13×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">13×</span>
+<span class="cline-any cline-yes">13×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">14×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">13×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">13×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">13×</span>
+<span class="cline-any cline-yes">13×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">12×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11×</span>
+<span class="cline-any cline-yes">11×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11×</span>
+<span class="cline-any cline-yes">11×</span>
+<span class="cline-any cline-yes">9×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">13×</span>
+<span class="cline-any cline-yes">13×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.20;
+&nbsp;
+import "@openzeppelin/contracts/access/Ownable.sol";
+import "./MembershipContract.sol";
+import "./IncomeManagementContract.sol";
+import "./PaymentContract.sol";
+&nbsp;
+contract GovernanceContract is Ownable {
+    MembershipContract public membershipContract;
+    address payable public incomeManagementContract; // Store as address payable
+    PaymentContract public paymentContract;
+&nbsp;
+    uint256 public proposalCounter;
+    uint256 public votingPeriod = 7 days; // Default voting period (can be made configurable later)
+&nbsp;
+    // --- Structs ---
+    struct Proposal {
+        uint256 id;
+        address proposer;
+        address[] targets;
+        uint256[] values;
+        string[] signatures;
+        bytes[] calldatas;
+        uint256 startTime;
+        uint256 endTime;
+        string description;
+        bool executed;
+        bool canceled;
+        // --- Voting State ---
+        uint256 forVotes;
+        uint256 againstVotes;
+        mapping(address =&gt; bool) hasVoted;
+    }
+&nbsp;
+    // --- Storage ---
+    mapping(uint256 =&gt; Proposal) public proposals;
+&nbsp;
+    // --- Events (Placeholders for future tests) ---
+    event ProposalCreated(uint256 proposalId, address proposer, address[] targets, uint256[] values, string[] signatures, bytes[] calldatas, uint256 startTime, uint256 endTime, string description);
+    event Voted(uint256 proposalId, address voter, bool support, uint256 weight);
+    event ProposalExecuted(uint256 proposalId);
+    event ProposalCanceled(uint256 proposalId); // If cancellation is implemented
+&nbsp;
+    constructor(
+        address _membershipContractAddress,
+        address _incomeManagementContractAddress,
+        address _paymentContractAddress,
+        address initialOwner // Provided by Ownable's constructor mechanism
+    ) Ownable(initialOwner) {
+        <span class="missing-if-branch" title="else path not taken" >E</span>require(_membershipContractAddress != address(0), "Governance: Invalid MembershipContract address");
+        <span class="missing-if-branch" title="else path not taken" >E</span>require(_incomeManagementContractAddress != address(0), "Governance: Invalid IncomeManagementContract address");
+        <span class="missing-if-branch" title="else path not taken" >E</span>require(_paymentContractAddress != address(0), "Governance: Invalid PaymentContract address");
+&nbsp;
+        membershipContract = MembershipContract(_membershipContractAddress);
+        incomeManagementContract = payable(_incomeManagementContractAddress); // Assign payable address directly
+        paymentContract = PaymentContract(_paymentContractAddress);
+&nbsp;
+        // proposalCounter is initialized to 0 by default
+    }
+&nbsp;
+    // --- Minimal functions required by the first test ---
+    // owner() is inherited from Ownable
+    // proposalCounter() getter is implicit
+&nbsp;
+    // --- Placeholder functions for future tests/compilation ---
+    // These will be properly implemented based on subsequent failing tests
+&nbsp;
+    function createProposal(
+        address[] memory targets,
+        uint256[] memory values,
+        string[] memory signatures,
+        bytes[] memory calldatas,
+        string memory description
+    ) public virtual returns (uint256 proposalId) {
+        // TDD_ANCHOR: Test_Governance_CreateProposal_Fail_NotVotingMember
+        require(membershipContract.isVotingMember(msg.sender), "Governance: Caller is not a voting member");
+&nbsp;
+        // TDD_ANCHOR: Test_Governance_CreateProposal_Success
+        proposalId = proposalCounter; // Get current counter value for the ID
+&nbsp;
+        uint256 startTime = block.timestamp;
+        uint256 endTime = startTime + votingPeriod;
+&nbsp;
+        // Create and store the proposal
+        Proposal storage newProposal = proposals[proposalId];
+        newProposal.id = proposalId;
+        newProposal.proposer = msg.sender;
+        newProposal.targets = targets;
+        newProposal.values = values;
+        newProposal.signatures = signatures;
+        newProposal.calldatas = calldatas;
+        newProposal.startTime = startTime;
+        newProposal.endTime = endTime;
+        newProposal.description = description;
+        newProposal.executed = false;
+        newProposal.canceled = false;
+&nbsp;
+        // Emit the event with actual start/end times
+        emit ProposalCreated(proposalId, msg.sender, targets, values, signatures, calldatas, startTime, endTime, description);
+&nbsp;
+        proposalCounter++; // Increment counter *after* using it for the ID
+        return proposalId;
+    }
+&nbsp;
+     function vote(uint256 proposalId, bool support) public virtual {
+        // TDD_ANCHOR: Test_Governance_Vote_Fail_NotVotingMember
+        require(membershipContract.isVotingMember(msg.sender), "Governance: Caller is not a voting member");
+&nbsp;
+        Proposal storage proposal = proposals[proposalId];
+&nbsp;
+        // Check if proposal exists (implicitly checked by accessing endTime, but explicit check is clearer)
+        <span class="missing-if-branch" title="else path not taken" >E</span>require(proposal.startTime &gt; 0, "Governance: Proposal does not exist"); // startTime is 0 for non-existent proposals
+&nbsp;
+        // TDD_ANCHOR: Test_Governance_Vote_Fail_ProposalNotActive
+        <span class="missing-if-branch" title="else path not taken" >E</span>require(block.timestamp &gt;= proposal.startTime, "Governance: Proposal not started");
+        require(block.timestamp &lt;= proposal.endTime, "Governance: Proposal not active"); // Checks ended proposals
+&nbsp;
+        // TDD_ANCHOR: Test_Governance_Vote_Fail_AlreadyVoted
+        require(!proposal.hasVoted[msg.sender], "Governance: Voter already voted");
+&nbsp;
+        // TDD_ANCHOR: Test_Governance_Vote_Success
+        uint256 voteWeight = getVotes(msg.sender); // Get voter's weight (currently 1)
+        <span class="missing-if-branch" title="else path not taken" >E</span>require(voteWeight &gt; 0, "Governance: Voter has no voting power"); // Sanity check
+&nbsp;
+        // Update state
+        proposal.hasVoted[msg.sender] = true;
+        if (support) {
+            proposal.forVotes += voteWeight;
+        } else {
+            proposal.againstVotes += voteWeight;
+        }
+&nbsp;
+        emit Voted(proposalId, msg.sender, support, voteWeight);
+    }
+&nbsp;
+    function executeProposal(uint256 proposalId) public payable virtual {
+        Proposal storage proposal = proposals[proposalId];
+&nbsp;
+        // TDD_ANCHOR: Test_Governance_ExecuteProposal_Fail_AlreadyExecuted
+        require(!proposal.executed, "Governance: Proposal already executed");
+        // Add check for canceled proposals if cancellation is implemented
+        // require(!proposal.canceled, "Governance: Proposal canceled");
+&nbsp;
+        // TDD_ANCHOR: Test_Governance_ExecuteProposal_Fail_Expired (Incorrect anchor name, should be something like Fail_VotingNotEnded)
+        require(block.timestamp &gt; proposal.endTime, "Governance: Voting period not ended");
+&nbsp;
+        // TDD_ANCHOR: Test_Governance_ExecuteProposal_Fail_QuorumNotMet
+        // Check Quorum (&gt;50% participation required)
+        uint256 totalVotes = proposal.forVotes + proposal.againstVotes;
+        uint256 totalMembers = membershipContract.getTotalVotingMembers();
+        <span class="missing-if-branch" title="else path not taken" >E</span>require(totalMembers &gt; 0, "Governance: No voting members exist"); // Prevent division by zero / nonsensical quorum
+        require(totalVotes * 2 &gt; totalMembers, "Governance: Quorum not reached"); // Simple &gt;50% quorum
+&nbsp;
+        // TDD_ANCHOR: Test_Governance_ExecuteProposal_Fail_NotEnoughVotes
+        // Check Vote Threshold (simple majority of votes cast)
+        require(proposal.forVotes &gt; proposal.againstVotes, "Governance: Proposal did not pass");
+&nbsp;
+        // TDD_ANCHOR: Test_Governance_ExecuteProposal_Success_Majority
+        proposal.executed = true;
+&nbsp;
+        // --- Execute Proposal Actions ---
+        // TDD_ANCHOR: Test_Governance_ExecuteProposal_Fail_ExecutionFailed
+        for (uint i = 0; i &lt; proposal.targets.length; i++) {
+            (bool success, bytes memory result) = proposal.targets[i].call{value: proposal.values[i]}(proposal.calldatas[i]);
+            // If a call fails, revert the whole execution. Consider if partial execution is ever desired.
+            <span class="missing-if-branch" title="else path not taken" >E</span>require(success, "Governance: Proposal execution failed");
+        }
+&nbsp;
+        emit ProposalExecuted(proposalId);
+    }
+&nbsp;
+    // --- Function to allow owner to update proposal end time ---
+<span class="fstat-no" title="function not covered" >    function updateProposalEndTime(uint256 proposalId, uint256 newEndTime) public onlyOwner {</span>
+<span class="cstat-no" title="statement not covered" >        Proposal storage proposal = proposals[proposalId];</span>
+<span class="cstat-no" title="statement not covered" >        require(proposal.startTime &gt; 0, "Governance: Proposal does not exist")</span>;
+<span class="cstat-no" title="statement not covered" >        require(!proposal.executed, "Governance: Proposal already executed")</span>;
+<span class="cstat-no" title="statement not covered" >        require(block.timestamp &lt; proposal.endTime, "Governance: Cannot update endTime after it has passed")</span>;
+&nbsp;
+        proposal.endTime = newEndTime;
+    }
+&nbsp;
+    // --- Placeholder for parameter update functions (called via proposals) ---
+    // TDD_ANCHOR: Test_Governance_UpdateEntryFee
+    // TDD_ANCHOR: Test_Governance_UpdateIncomeSplit
+&nbsp;
+    // --- Placeholder for founder rights logic ---
+    // TDD_ANCHOR: Test_Governance_FounderRights_VotingPower
+    // TDD_ANCHOR: Test_Governance_FounderRights_Expiry
+    function getVotes(address account) public view virtual returns (uint256) {
+        // TDD_ANCHOR: Test_Governance_FounderRights_VotingPower
+        // TDD_ANCHOR: Test_Governance_FounderRights_Expiry
+        // TODO: Implement logic for special founder voting power and expiry if needed
+&nbsp;
+        // Return 1 vote if they are a voting member, 0 otherwise
+        <span class="missing-if-branch" title="else path not taken" >E</span>if (membershipContract.isVotingMember(account)) {
+            return 1; // Standard voting power
+        } else {
+<span class="cstat-no" title="statement not covered" >            return 0;</span>
+        }
+    }
+&nbsp;
+    // --- Getter function required by the test ---
+    // Returns core proposal details (excluding arrays/mappings to avoid stack issues)
+    function getProposalCoreDetails(uint256 proposalId) public view returns (
+        uint256 id,
+        address proposer,
+        uint256 startTime,
+        uint256 endTime,
+        string memory description,
+        bool executed,
+        bool canceled,
+        uint256 forVotes,
+        uint256 againstVotes
+    ) {
+        Proposal storage p = proposals[proposalId];
+        // Ensure proposal exists before returning, otherwise return defaults
+        <span class="missing-if-branch" title="if path not taken" >I</span>if (p.startTime == 0) {
+<span class="cstat-no" title="statement not covered" >             return (0, address(0), 0, 0, "", false, false, 0, 0);</span>
+        }
+        return (
+            p.id,
+            p.proposer,
+            p.startTime,
+            p.endTime,
+            p.description,
+            p.executed,
+            p.canceled,
+            p.forVotes,
+            p.againstVotes
+        );
+    }
+&nbsp;
+    // --- Specific Getters for Array/Mapping Data ---
+&nbsp;
+    function getProposalTargets(uint256 proposalId) public view returns (address[] memory) {
+        return proposals[proposalId].targets;
+    }
+&nbsp;
+    function getProposalValues(uint256 proposalId) public view returns (uint256[] memory) {
+        return proposals[proposalId].values;
+    }
+&nbsp;
+<span class="fstat-no" title="function not covered" >    function getProposalSignatures(uint256 proposalId) public view returns (string[] memory) {</span>
+<span class="cstat-no" title="statement not covered" >        return proposals[proposalId].signatures;</span>
+    }
+&nbsp;
+<span class="fstat-no" title="function not covered" >    function getProposalCalldatas(uint256 proposalId) public view returns (bytes[] memory) {</span>
+<span class="cstat-no" title="statement not covered" >        return proposals[proposalId].calldatas;</span>
+    }
+&nbsp;
+<span class="fstat-no" title="function not covered" >    function hasVoted(uint256 proposalId, address voter) public view returns (bool) {</span>
+<span class="cstat-no" title="statement not covered" >        return proposals[proposalId].hasVoted[voter];</span>
+    }
+}</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Apr 07 2025 22:47:42 GMT+0100 (British Summer Time)
+</div>
+</div>
+<script src="../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../sorter.js"></script>
+</body>
+</html>
