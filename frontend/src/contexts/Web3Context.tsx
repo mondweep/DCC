@@ -1,14 +1,8 @@
 import React, { useState, useEffect, createContext, useContext, ReactNode, useCallback } from 'react';
 import { ethers } from 'ethers';
 
-// Import ABIs from the copied location within src
-import MembershipABI from '../abis/MembershipContract.json';
-import GovernanceABI from '../abis/GovernanceContract.json';
-import IncomeManagementABI from '../abis/IncomeManagementContract.json';
-import PaymentABI from '../abis/PaymentContract.json';
-
 // Define contract addresses (replace with actual deployed addresses later)
-// Using placeholders for now
+// Using placeholders from environment variables
 const MEMBERSHIP_CONTRACT_ADDRESS = import.meta.env.VITE_MEMBERSHIP_CONTRACT_ADDRESS || "0x...";
 const GOVERNANCE_CONTRACT_ADDRESS = import.meta.env.VITE_GOVERNANCE_CONTRACT_ADDRESS || "0x...";
 const INCOME_MANAGEMENT_CONTRACT_ADDRESS = import.meta.env.VITE_INCOME_MANAGEMENT_CONTRACT_ADDRESS || "0x...";
@@ -83,8 +77,7 @@ export const Web3Provider: React.FC<Web3ProviderProps> = ({ children }) => {
       if (provider) {
         provider.getSigner().then(signer => {
             setSigner(signer);
-            // Check status after signer is set
-            // Note: Contract instances might not be ready yet, handled by separate effect
+            // Status check will happen in the effect below that depends on signer/account
         }).catch(console.error);
       }
     }
@@ -124,34 +117,57 @@ export const Web3Provider: React.FC<Web3ProviderProps> = ({ children }) => {
 
   // Initialize contract instances when signer is available
   useEffect(() => {
-    if (signer && MEMBERSHIP_CONTRACT_ADDRESS !== "0x..." ) { // Check for valid address
-      console.log("Initializing contracts with signer...");
-      try {
-          const memContract = new ethers.Contract(MEMBERSHIP_CONTRACT_ADDRESS, MembershipABI.abi, signer);
-          const govContract = new ethers.Contract(GOVERNANCE_CONTRACT_ADDRESS, GovernanceABI.abi, signer);
-          const incContract = new ethers.Contract(INCOME_MANAGEMENT_CONTRACT_ADDRESS, IncomeManagementABI.abi, signer);
-          const payContract = new ethers.Contract(PAYMENT_CONTRACT_ADDRESS, PaymentABI.abi, signer);
+    const initContracts = async () => {
+        if (signer && MEMBERSHIP_CONTRACT_ADDRESS !== "0x..." ) { // Check for valid address
+            console.log("Initializing contracts with signer...");
+            try {
+                // Fetch ABIs from the public directory
+                const fetchABI = async (path: string) => {
+                    // Use absolute path from root for files in public/
+                    const response = await fetch(path);
+                    if (!response.ok) {
+                        throw new Error(`Failed to fetch ABI from ${path}: ${response.statusText}`);
+                    }
+                    return await response.json();
+                };
 
-          setMembershipContract(memContract);
-          setGovernanceContract(govContract);
-          setIncomeManagementContract(incContract);
-          setPaymentContract(payContract);
-          console.log("Contracts initialized.");
-      } catch (error) {
-          console.error("Error initializing contracts:", error);
-          // Clear contracts on error
+                // Fetch all ABIs concurrently
+                const [MembershipABI, GovernanceABI, IncomeManagementABI, PaymentABI] = await Promise.all([
+                    fetchABI('/abis/MembershipContract.json'),
+                    fetchABI('/abis/GovernanceContract.json'),
+                    fetchABI('/abis/IncomeManagementContract.json'),
+                    fetchABI('/abis/PaymentContract.json')
+                ]);
+
+                const memContract = new ethers.Contract(MEMBERSHIP_CONTRACT_ADDRESS, MembershipABI.abi, signer);
+                const govContract = new ethers.Contract(GOVERNANCE_CONTRACT_ADDRESS, GovernanceABI.abi, signer);
+                const incContract = new ethers.Contract(INCOME_MANAGEMENT_CONTRACT_ADDRESS, IncomeManagementABI.abi, signer);
+                const payContract = new ethers.Contract(PAYMENT_CONTRACT_ADDRESS, PaymentABI.abi, signer);
+
+                setMembershipContract(memContract);
+                setGovernanceContract(govContract);
+                setIncomeManagementContract(incContract);
+                setPaymentContract(payContract);
+                console.log("Contracts initialized.");
+            } catch (error) {
+                console.error("Error initializing contracts:", error);
+                // Clear contracts on error
+                 setMembershipContract(null);
+                 setGovernanceContract(null);
+                 setIncomeManagementContract(null);
+                 setPaymentContract(null);
+            }
+        } else {
+           console.log("Signer not available or contract addresses not set, clearing contracts.");
            setMembershipContract(null);
            setGovernanceContract(null);
            setIncomeManagementContract(null);
            setPaymentContract(null);
-      }
-    } else {
-       console.log("Signer not available or contract addresses not set, clearing contracts.");
-       setMembershipContract(null);
-       setGovernanceContract(null);
-       setIncomeManagementContract(null);
-       setPaymentContract(null);
-    }
+        }
+    };
+
+    initContracts(); // Call the async function
+
   }, [signer]); // Re-run when signer changes
 
   // Effect to check membership when contract instance is ready and account changes
