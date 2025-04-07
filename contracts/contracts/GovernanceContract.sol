@@ -170,6 +170,16 @@ contract GovernanceContract is Ownable {
         emit ProposalExecuted(proposalId);
     }
 
+    // --- Function to allow owner to update proposal end time ---
+    function updateProposalEndTime(uint256 proposalId, uint256 newEndTime) public onlyOwner {
+        Proposal storage proposal = proposals[proposalId];
+        require(proposal.startTime > 0, "Governance: Proposal does not exist");
+        require(!proposal.executed, "Governance: Proposal already executed");
+        require(block.timestamp < proposal.endTime, "Governance: Cannot update endTime after it has passed");
+
+        proposal.endTime = newEndTime;
+    }
+
     // --- Placeholder for parameter update functions (called via proposals) ---
     // TDD_ANCHOR: Test_Governance_UpdateEntryFee
     // TDD_ANCHOR: Test_Governance_UpdateIncomeSplit

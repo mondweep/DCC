@@ -17,6 +17,7 @@ interface Web3ContextType {
   isMember: boolean | null; // null = loading, false = not member, true = member
   connectWallet: () => Promise<void>;
   checkMembershipStatus: () => Promise<void>;
+  disconnectWallet: () => void; // Add disconnect function type
   // Contract instances
   membershipContract: ethers.Contract | null;
   governanceContract: ethers.Contract | null;
@@ -34,7 +35,16 @@ interface Web3ProviderProps {
 
 // Create the provider component
 export const Web3Provider: React.FC<Web3ProviderProps> = ({ children }) => {
-  const [provider, setProvider] = useState<ethers.BrowserProvider | null>(null);
+  // Initialize provider once using useState initializer
+  const [provider, setProvider] = useState<ethers.BrowserProvider | null>(() => {
+    // Check if window and window.ethereum are available (client-side check)
+    if (typeof window !== 'undefined' && window.ethereum) {
+      console.log("Initializing ethers BrowserProvider...");
+      return new ethers.BrowserProvider(window.ethereum);
+    }
+    console.log("MetaMask (window.ethereum) not detected during initial provider setup.");
+    return null;
+  });
   const [signer, setSigner] = useState<ethers.Signer | null>(null);
   const [account, setAccount] = useState<string | null>(null);
   const [isMember, setIsMember] = useState<boolean | null>(null);
@@ -43,6 +53,7 @@ export const Web3Provider: React.FC<Web3ProviderProps> = ({ children }) => {
   const [governanceContract, setGovernanceContract] = useState<ethers.Contract | null>(null);
   const [incomeManagementContract, setIncomeManagementContract] = useState<ethers.Contract | null>(null);
   const [paymentContract, setPaymentContract] = useState<ethers.Contract | null>(null);
+  const [hasManuallyDisconnected, setHasManuallyDisconnected] = useState(false); // Add disconnect flag state
 
   // Memoized function to check membership status
   const checkMembershipStatus = useCallback(async (currentAccount?: string | null) => {
@@ -84,27 +95,40 @@ export const Web3Provider: React.FC<Web3ProviderProps> = ({ children }) => {
   }, [account, provider]); // Dependencies
 
 
-  // Initialize provider and check for existing connection/accounts
+  // Effect to set up listeners and check initial connection/accounts
   useEffect(() => {
-    if (window.ethereum) {
-      const browserProvider = new ethers.BrowserProvider(window.ethereum);
-      setProvider(browserProvider);
+    // Only run if provider is successfully initialized
+    if (provider) {
+      console.log("Provider initialized, setting up listeners and checking accounts...");
 
       const initConnection = async () => {
-          try {
-              const accounts = await window.ethereum!.request({ method: 'eth_accounts' }) as string[];
-              if (accounts.length > 0) {
-                  handleAccountsChanged(accounts); // Sets account and triggers signer fetch
-              }
-          } catch (err) {
-              console.error("Error checking initial accounts:", err);
-          }
+        // Only attempt initial connection check if user hasn't manually disconnected
+        if (!hasManuallyDisconnected) {
+            console.log("Checking for existing connected accounts (initial load)...");
+            try {
+                const accounts = await window.ethereum!.request({ method: 'eth_accounts' }) as string[];
+                if (accounts.length > 0) {
+                    console.log("Found existing accounts:", accounts);
+                    handleAccountsChanged(accounts); // Sets account and triggers signer fetch
+                } else {
+                    console.log("No existing accounts found connected.");
+                }
+            } catch (err) {
+                console.error("Error checking initial accounts:", err);
+            }
+        } else {
+            console.log("Skipping initial account check due to manual disconnect.");
+        }
       };
       initConnection();
 
-      window.ethereum.on('accountsChanged', handleAccountsChanged);
+      // Ensure window.ethereum exists before attaching listener
+      if (window.ethereum?.on) {
+        window.ethereum.on('accountsChanged', handleAccountsChanged);
+      }
 
       return () => {
+        // Ensure window.ethereum exists before removing listener
         if (window.ethereum?.removeListener) {
           window.ethereum.removeListener('accountsChanged', handleAccountsChanged);
         }
@@ -112,7 +136,10 @@ export const Web3Provider: React.FC<Web3ProviderProps> = ({ children }) => {
     } else {
       console.log('MetaMask not detected');
     }
-  }, [handleAccountsChanged]); // Add handleAccountsChanged dependency
+  // Depend only on provider (stable) and handleAccountsChanged callback
+  // This effect should run once when provider is ready, and re-run if handleAccountsChanged identity changes (due to its own dependencies changing)
+  // Add hasManuallyDisconnected to dependency array so effect re-runs if it changes (e.g., after connect)
+  }, [provider, handleAccountsChanged, hasManuallyDisconnected]);
 
 
   // Initialize contract instances when signer is available
@@ -183,6 +210,7 @@ export const Web3Provider: React.FC<Web3ProviderProps> = ({ children }) => {
   // Connect wallet function
   const connectWallet = async () => {
     if (provider) {
+      setHasManuallyDisconnected(false); // Reset disconnect flag on connection attempt
       try {
         // Request accounts, triggering handleAccountsChanged if successful
         await provider.send('eth_requestAccounts', []);
@@ -195,6 +223,22 @@ export const Web3Provider: React.FC<Web3ProviderProps> = ({ children }) => {
     } else {
       alert('MetaMask is not installed. Please install it to use this app.');
     }
+  };
+
+  // Disconnect wallet function
+  const disconnectWallet = () => {
+    console.log('Disconnecting wallet (manual action).');
+    setHasManuallyDisconnected(true); // Set disconnect flag
+    // Reset state variables related to the connection
+    setAccount(null);
+    setSigner(null);
+    setIsMember(false); // Reset membership status
+    // Clear contract instances as they depend on the signer
+    setMembershipContract(null);
+    setGovernanceContract(null);
+    setIncomeManagementContract(null);
+    setPaymentContract(null);
+    // Note: We don't reset the provider itself, as it's tied to window.ethereum
   };
 
 
@@ -210,6 +254,7 @@ export const Web3Provider: React.FC<Web3ProviderProps> = ({ children }) => {
     governanceContract,
     incomeManagementContract,
     paymentContract,
+    disconnectWallet, // Add disconnect function to context value
   };
 
   return <Web3Context.Provider value={value}>{children}</Web3Context.Provider>;

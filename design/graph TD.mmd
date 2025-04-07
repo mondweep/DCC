@@ -1,0 +1,44 @@
+graph TD
+    subgraph "User System"
+        User(User: Member/Client/Admin)
+    end
+
+    subgraph "DCC Platform"
+        Frontend[Frontend SPA<br> :React, Tailwind, ethers.js]
+        BackendAPI[Backend API<br> :Node.js, Express]
+        DB[(Off-Chain DB<br>PostgreSQL)]
+        subgraph "Blockchain Network (Local Hardhat Node)"
+            BCNode[Blockchain Node<br>Hardhat]
+            subgraph "Smart Contracts (Solidity)"
+                GovSC[Governance Contract]
+                IncomeSC[Income Management Contract]
+                MemberSC[Membership Contract]
+                PaymentSC[Payment Contract]
+            end
+        end
+    end
+
+    User -- Interacts via HTTPS --> Frontend
+    Frontend -- Interacts via Wallet (MetaMask) --> BCNode
+    Frontend -- REST API Calls --> BackendAPI
+    BackendAPI -- Reads/Writes --> DB
+    BackendAPI -- Reads Contract State (optional) --> BCNode
+    BCNode -- Executes/Stores --> GovSC
+    BCNode -- Executes/Stores --> IncomeSC
+    BCNode -- Executes/Stores --> MemberSC
+    BCNode -- Executes/Stores --> PaymentSC
+
+    GovSC -- Interacts --> MemberSC
+    GovSC -- Interacts --> IncomeSC
+    IncomeSC -- Interacts --> PaymentSC
+    MemberSC -- Interacts --> IncomeSC
+    PaymentSC -- Interacts --> IncomeSC
+
+    style Frontend fill:#ccf,stroke:#333,stroke-width:2px
+    style BackendAPI fill:#f9f,stroke:#333,stroke-width:2px
+    style DB fill:#fcf,stroke:#333,stroke-width:2px
+    style BCNode fill:#ccf,stroke:#333,stroke-width:2px
+    style GovSC fill:#ffc,stroke:#333,stroke-width:1px
+    style IncomeSC fill:#ffc,stroke:#333,stroke-width:1px
+    style MemberSC fill:#ffc,stroke:#333,stroke-width:1px
+    style PaymentSC fill:#ffc,stroke:#333,stroke-width:1px

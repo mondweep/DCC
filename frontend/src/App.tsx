@@ -6,7 +6,8 @@ import './App.css'; // Assuming App.css might be used alongside Tailwind
 
 function App() {
   // Get state and functions from context
-  const { account, connectWallet, isMember, membershipContract, checkMembershipStatus } = useWeb3();
+  // Get state and functions from context, including disconnectWallet
+  const { account, connectWallet, disconnectWallet, isMember, membershipContract, checkMembershipStatus } = useWeb3();
   const [isJoining, setIsJoining] = useState(false); // State for loading indicator
   const [joinError, setJoinError] = useState<string | null>(null);
 
@@ -15,8 +16,16 @@ function App() {
       <header className="w-full max-w-4xl flex justify-between items-center p-4 border-b border-gray-700">
         <h1 className="text-2xl font-bold">DCC Portal</h1>
         {account ? (
-          <div className="bg-gray-800 p-2 rounded">
-            Connected: {`${account.substring(0, 6)}...${account.substring(account.length - 4)}`}
+          <div className="flex items-center space-x-4">
+            <div className="bg-gray-800 p-2 rounded">
+              Connected: {`${account.substring(0, 6)}...${account.substring(account.length - 4)}`}
+            </div>
+            <button
+              onClick={disconnectWallet} // Call disconnectWallet from context
+              className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+            >
+              Disconnect
+            </button>
           </div>
         ) : (
           <button
