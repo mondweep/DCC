@@ -10,26 +10,28 @@ HTTP_PORT=${HTTP_PORT:-"8545"}
 WS_PORT=${WS_PORT:-"8546"}
 # BOOTNODES env var should be set when running the container, e.g., -e BOOTNODES="enode://..."
 
-# Initialize data directory if it doesn't exist
+# Initialize data directory and import key if needed
 if [ ! -d "$DATADIR/geth" ]; then
-  echo "Initializing Geth data directory..."
-  geth --datadir "$DATADIR" init genesis.json
-  # Import sealer key if provided and keystore doesn't already contain it
-  # Assumes key file is mounted at /root/sealer_key.txt and password at /root/password.txt
+  echo "Data directory not found. Initializing and importing key..."
+  # Import sealer key first (creates keystore directory)
   KEY_FILE="/root/sealer_key.txt"
   PASSWORD_FILE="/root/password.txt"
-  SEALER_ADDRESS_LOWER=$(echo "$SEALER_ADDRESS" | tr '[:upper:]' '[:lower:]') # Geth uses lowercase addresses in keystore path
-  KEYSTORE_FILE="$DATADIR/keystore/UTC--*--${SEALER_ADDRESS_LOWER#0x}" # Pattern to check if key exists
-
-  if [ -n "$SEALER_ADDRESS" ] && [ -f "$KEY_FILE" ] && [ -f "$PASSWORD_FILE" ] && ! ls $KEYSTORE_FILE > /dev/null 2>&1; then
+  if [ -n "$SEALER_ADDRESS" ] && [ -f "$KEY_FILE" ] && [ -f "$PASSWORD_FILE" ]; then
       echo "Importing sealer key..."
-      geth account import --datadir "$DATADIR" --password "$PASSWORD_FILE" "$KEY_FILE"
-      echo "Sealer key imported."
-  elif [ -n "$SEALER_ADDRESS" ] && ! ls $KEYSTORE_FILE > /dev/null 2>&1; then
-      echo "Warning: Sealer key file or password file not found, cannot import key."
+      # Use --lightkdf for older Geth compatibility if needed, but try without first
+      geth account import --datadir "$DATADIR" --password "$PASSWORD_FILE" "$KEY_FILE" || echo "Key import failed or key already exists."
+      echo "Sealer key import attempted."
+  elif [ -n "$SEALER_ADDRESS" ]; then
+       echo "Warning: Sealer key file or password file not found, cannot import key."
   fi
+
+  # Initialize genesis state
+  echo "Initializing genesis state..."
+  geth --datadir "$DATADIR" init genesis.json
 else
   echo "Geth data directory already initialized."
+  # Optional: Check if key exists on subsequent starts and import if missing?
+  # For simplicity, we assume key exists if datadir exists from previous run.
 fi
 
 # Construct Geth command arguments
@@ -48,7 +50,7 @@ GETH_ARGS="--datadir $DATADIR \
 --ws.api eth,net,web3,clique,miner \
 --ws.origins '*' \
 --allow-insecure-unlock \
---override.terminaltotaldifficulty 0 \
+--discovery.port 30303 \
 --verbosity ${VERBOSITY:-3}" # Default verbosity 3
 
 # Add bootnodes if provided

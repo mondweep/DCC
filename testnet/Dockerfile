@@ -1,6 +1,6 @@
 # Use the stable Geth image
 # Use a specific pre-merge Geth version known to work well with Clique
-FROM ethereum/client-go:v1.10.26
+FROM ethereum/client-go:v1.10.25
 
 # Set working directory
 WORKDIR /root
