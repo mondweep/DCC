@@ -179,10 +179,12 @@ const ProposalList: React.FC = () => {
 
     const handleEndTimeChange = useCallback((proposalId: bigint, date: Date | null) => {
         setSelectedEndTime(prev => ({ ...prev, [proposalId.toString()]: date }));
+        console.log(`handleEndTimeChange called for proposal ${proposalId} with date ${date}`);
     }, []);
 
     const handleSubmitEndTime = useCallback((proposalId: bigint) => {
         const selectedDate = selectedEndTime[proposalId.toString()];
+        console.log(`handleSubmitEndTime called for proposal ${proposalId} with date ${selectedDate}`);
         if (selectedDate) {
             updateEndTime(proposalId, selectedDate);
         } else {
@@ -203,14 +205,14 @@ const ProposalList: React.FC = () => {
                 <ul className="space-y-4">
                     {proposals.map((p) => (
                         <li key={p.id.toString()} className="p-4 border border-gray-700 rounded bg-gray-800">
-                            <a href={`/proposal/${p.id.toString()}`} style={{ display: 'block', textDecoration: 'none', color: 'inherit' }}>
+                            
                                 <h3 className="font-bold mb-1">Proposal #{p.id.toString()}: {p.description}</h3>
                                 <p className="text-sm text-gray-400">Proposer: {p.proposer}</p>
                                 <p className="text-sm text-gray-400">Voting Ends: {formatTimestamp(p.endTime)}</p>
                                 <p className="text-sm">Votes For: {p.forVotes.toString()}</p>
                                 <p className="text-sm">Votes Against: {p.againstVotes.toString()}</p>
-                                <p className={`text-sm ${p.executed ? 'text-green-500' : p.canceled ? 'text-red-500' : 'text-yellow-500'}`}>
-                                    Status: {p.executed ? 'Executed' : p.canceled ? 'Canceled' : 'Active/Pending'}</p>
+                                <p className={`text-sm ${p.executed ? 'text-green-500' : p.canceled ? 'text-red-500' : BigInt(Date.now()) / 1000n > p.endTime ? 'text-gray-500' : 'text-yellow-500'}`}>
+                                    Status: {p.executed ? 'Executed' : p.canceled ? 'Canceled' : BigInt(Date.now()) / 1000n > p.endTime ? 'Expired' : 'Active/Pending'}</p>
 
                                 {/* Action Buttons */}
                                 <div className="mt-2 space-x-2">
@@ -256,7 +258,7 @@ const ProposalList: React.FC = () => {
                                  {/* Date Picker to update end Time */}
                                  <div className="mt-2">
                                     <DatePicker
-                                        selected={p.endTime ? new Date(Number(p.endTime) * 1000) : null}
+                                        selected={selectedEndTime[p.id.toString()] || (p.endTime ? new Date(Number(p.endTime) * 1000) : null)}
                                         onChange={(date) => handleEndTimeChange(p.id, date)}
                                         showTimeSelect
                                         timeFormat="HH:mm"
@@ -264,11 +266,12 @@ const ProposalList: React.FC = () => {
                                         dateFormat="MMMM d, yyyy h:mm aa"
                                         className="w-full p-2 bg-gray-700 border border-gray-600 rounded text-white focus:ring-blue-500 focus:border-blue-500 text-sm"
                                         placeholderText="Select New End Time"
+                                        disabled={BigInt(Date.now()) / 1000n > p.endTime}
                                     />
                                     <button
                                         onClick={() => handleSubmitEndTime(p.id)}
-                                        disabled={actionState[p.id.toString()]?.loading}
-                                        className={`bg-blue-600 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded text-sm ${actionState[p.id.toString()]?.loading ? 'opacity-50 cursor-not-allowed' : ''}`}
+                                        disabled={actionState[p.id.toString()]?.loading || BigInt(Date.now()) / 1000n > p.endTime}
+                                        className={`bg-blue-600 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded text-sm ${actionState[p.id.toString()]?.loading || BigInt(Date.now()) / 1000n > p.endTime ? 'opacity-50 cursor-not-allowed' : ''}`}
                                     >
                                         Update End Time
                                     </button>
@@ -280,7 +283,7 @@ const ProposalList: React.FC = () => {
                                  {/* {actionState[p.id.toString()]?.error && (
                                     <p className="text-red-500 text-xs mt-1">{actionState[p.id.toString()]?.error}</p>
                                  )} */}
-                            </a>
+                            
                         </li>
                     ))}
                 </ul>

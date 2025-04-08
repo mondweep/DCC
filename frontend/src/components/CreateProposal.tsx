@@ -66,7 +66,38 @@ const CreateProposal: React.FC<CreateProposalProps> = () => {
                     setNewEndTime(null);
                     // TODO: Trigger proposal list refresh?
                 }
-            }  else {
+            } else if (proposalType === "updateEndTime") {
+                if (!proposalId) {
+                    setError("Please enter a proposal ID.");
+                    return;
+                }
+                if (!newEndTime) {
+                    setError("Please select a new end time.");
+                    return;
+                }
+
+                const newEndTimeUnix = Math.floor(newEndTime.getTime() / 1000);
+
+                try {
+                    const tx = await governanceContract.updateProposalEndTime(
+                        proposalId,
+                        newEndTimeUnix
+                    );
+                    console.log("Update end time transaction sent:", tx.hash);
+                    setSuccessMessage("Update end time transaction submitted! Waiting for confirmation...");
+                    await tx.wait(); // Wait for confirmation
+                    console.log("Update end time transaction confirmed.");
+                    setSuccessMessage(`Proposal end time updated successfully! Tx: ${tx.hash}`);
+                    setProposalId('');
+                    setNewEndTime(null);
+                    // TODO: Trigger proposal list refresh?
+                } catch (err: any) {
+                    console.error("Error updating proposal end time:", err);
+                    const reason = err?.reason || err?.message || "An unknown error occurred.";
+                    setError(`Failed to update proposal end time: ${reason}`);
+                    setSuccessMessage(null);
+                }
+            } else {
                 // Description is not required for other proposal types
                 targets = [];
                 values = [];
@@ -81,7 +112,7 @@ const CreateProposal: React.FC<CreateProposalProps> = () => {
         } finally {
             setIsLoading(false);
         }
-    }, [governanceContract, account, description]);
+    }, [governanceContract, account, description, proposalId, newEndTime]);
 
     const handleNewEndTimeChange = useCallback((date: Date | null) => {
         setNewEndTime(date);
