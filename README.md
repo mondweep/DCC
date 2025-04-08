@@ -30,78 +30,39 @@ The following tasks remain to be completed, as detailed in the unit test plan (`
 *   Refine and expand quorum logic testing.
 *   Add/Manage Non-Voting Members
 
-## Known Issues: Local Geth Testnet
+## Setup & Running Instructions (Docker)
 
-**IMPORTANT:** We are currently experiencing persistent difficulties getting the local Geth sealer node (configured via Docker in `testnet/`) to reliably seal blocks. Various configurations (Geth v1.10.25/v1.10.26, different flags, manual miner start attempts) have been tried without consistent success within the Docker environment.
+### 1. Setup & Running Instructions (Docker)
 
-**Impact:** This issue currently **prevents the deployment of smart contracts** to the local testnet and blocks full end-to-end testing of the application.
-
-**Next Steps:** Resolving this Geth configuration issue or potentially switching to an alternative local blockchain environment (e.g., Ganache) is a high-priority next step required for further development and testing.
-
-## Setup & Running Instructions
-
-### 1. Smart Contracts
-
-*   **Install Dependencies:**
-    ```bash
-    cd contracts
-    npm install
-    ```
-*   **Run Tests:**
-    ```bash
-    npx hardhat test
-    ```
-
-### 2. Local Testnet
-
-*   **Prerequisites:** Docker installed.
-*   **Detailed Setup:** Refer to `design/dcc_testnet_setup.md` for comprehensive instructions.
-*   **Summary:**
-    1.  Create `testnet/password.txt` (for the sealer account).
-    2.  Create `testnet/sealer_key.txt` (private key for the sealer account - **DO NOT COMMIT THIS**).
-    3.  Build the Docker image: `docker build -t dcc-testnet ./testnet`
-    4.  Run the bootnode container.
-    5.  Run the sealer node container.
-    6.  **Deploy contracts to the local testnet:**
-        ```bash
-        cd contracts
-        npx hardhat run scripts/deploy.js --network localGeth
+*   **Prerequisites:** Docker and Docker Compose installed.
+*   **Steps:**
+    1.  Create a `.env` file in the `frontend/` directory (`frontend/.env`).
+    2.  Add the deployed contract addresses (once deployment is possible) and network details to this file, prefixed with `REACT_APP_`:
+        ```dotenv
+        REACT_APP_GOVERNANCE_CONTRACT_ADDRESS=0x5FbDB2315678afecb367f032d93F642f64180aa3
+        REACT_APP_MEMBERSHIP_CONTRACT_ADDRESS=0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512
+        REACT_APP_INCOME_MANAGEMENT_CONTRACT_ADDRESS=0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0
+        REACT_APP_PAYMENT_CONTRACT_ADDRESS=0xCf7Ed3AccA5a467e9e704C7036889412616053B
+        REACT_APP_WEB3_PROVIDER_URL=http://localhost:8545
         ```
-        *(Ensure `hardhat.config.js` has the `localGeth` network configured correctly)*
-        **Note:** This step is currently **blocked** due to the Geth sealer node issues mentioned in the "Known Issues" section above.
-
-### 3. Frontend
+        *(These are the default addresses when deploying to a local hardhat chain. If you deploy to a different chain, you will need to update these values accordingly.)*
+    3.  Run `docker-compose up --build` in the root directory of the project.
+    4.  The frontend application should be accessible at `http://localhost:3000`.
+    5.  The contracts will be running on a local hardhat chain accessible at `http://localhost:8545`.
+### 2. Manual Frontend Setup (Alternative to Docker)
 
 *   **Install Dependencies:**
     ```bash
     cd frontend
     npm install
-    ```
-*   **Configure Environment:**
-    1.  Create a `.env` file in the `frontend/` directory (`frontend/.env`).
-    2.  Add the deployed contract addresses (once deployment is possible) and network details to this file, prefixed with `VITE_`:
-        ```dotenv
-        VITE_GOVERNANCE_CONTRACT_ADDRESS=0x...
-        VITE_MEMBERSHIP_CONTRACT_ADDRESS=0x...
-        VITE_INCOME_MANAGEMENT_CONTRACT_ADDRESS=0x...
-        VITE_PAYMENT_CONTRACT_ADDRESS=0x...
-        VITE_NETWORK_CHAIN_ID=YOUR_CHAIN_ID # e.g., 1337 for default Hardhat, or your Geth chain ID
-        ```
-        *(Replace `0x...` with the actual addresses output during deployment and `YOUR_CHAIN_ID` with the correct chain ID for your local network)*
-*   **Run Development Server:**
-    ```bash
-    npm run dev
-    ```
-    The application should be accessible at `http://localhost:5173` (or the port specified by Vite). You can interact with the basic UI, but contract interactions will fail until deployment is successful.
-
-### 4. MetaMask Configuration
+### 3. MetaMask Configuration
 
 *   Add a new network configuration in MetaMask:
-    *   **Network Name:** Local Geth (or similar)
-    *   **New RPC URL:** `http://localhost:8545` (or the RPC port exposed by your Geth node)
-    *   **Chain ID:** The Chain ID used in your `testnet/genesis.json` and configured in `frontend/.env`.
+    *   **Network Name:** Local Hardhat (or similar)
+    *   **New RPC URL:** `http://localhost:8545` (or the RPC port exposed by your Hardhat node)
+    *   **Chain ID:** 31337 (or the Chain ID used in your Hardhat configuration).
     *   **Currency Symbol:** ETH (optional)
-*   Import the sealer account into MetaMask using the private key from `testnet/sealer_key.txt` to interact with deployed contracts (once deployed).
+*   Import the default Hardhat account into MetaMask to interact with deployed contracts.
 
 ## Next Steps
 

@@ -40,34 +40,43 @@ VITE_NETWORK_CHAIN_ID=YOUR_CHAIN_ID # e.g., 1337 for default Hardhat, or your Ge
 
 *(Replace `0x...` with the actual addresses output during deployment and `YOUR_CHAIN_ID` with the correct chain ID for your local network)*
 
-7.  **Start the local testnet (optional):**
-    *   Install Docker.
-    *   Follow the instructions in `design/dcc_testnet_setup.md` to set up and run the local Geth testnet.
-8.  **Deploy the smart contracts (optional):**
-    *   If you are using the local testnet, deploy the smart contracts to the network:
+7.  **Set up the application locally using Docker (recommended):**
+    *   Install Docker and Docker Compose.
+    *   Create a `.env` file in the `frontend/` directory (`frontend/.env`) with the following content:
 
-```bash
-cd contracts
-npx hardhat run scripts/deploy.js --network localGeth
-cd ..
+```dotenv
+REACT_APP_GOVERNANCE_CONTRACT_ADDRESS=0x5FbDB2315678afecb367f032d93F642f64180aa3
+REACT_APP_MEMBERSHIP_CONTRACT_ADDRESS=0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512
+REACT_APP_INCOME_MANAGEMENT_CONTRACT_ADDRESS=0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0
+REACT_APP_PAYMENT_CONTRACT_ADDRESS=0xCf7Ed3AccA5a467e9e704C7036889412616053B
+REACT_APP_WEB3_PROVIDER_URL=http://localhost:8545
 ```
+    *   *(These are the default addresses when deploying to a local hardhat chain. If you deploy to a different chain, you will need to update these values accordingly.)*
+    *   Run `docker-compose up --build` in the root directory of the project.
+    *   The frontend application should be accessible at `http://localhost:3000`.
+    *   The contracts will be running on a local hardhat chain accessible at `http://localhost:8545`.
 
-9.  **Configure MetaMask:**
+8.  **Configure MetaMask:**
     *   **Add a new network:**
-        *   **Network Name:** Localhost 8545 (or similar)
+        *   **Network Name:** Local Hardhat (or similar)
         *   **New RPC URL:** `http://127.0.0.1:8545/`
-        *   **Chain ID:** `31337` (or the chain ID you configured in Hardhat)
+        *   **Chain ID:** `31337` (or the chain ID used in your Hardhat configuration).
         *   **Currency Symbol:** ETH
     *   **Import an account:**
         *   In Hardhat, the default account's private key is `0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80`.
         *   In MetaMask, click the account icon, then "Import Account".
         *   Select "Private Key" and paste the private key.
-10. **Start the frontend development server:**
 
-```bash
-cd frontend
-npm run dev
-cd ..
-```
+9.  **Manual Frontend Setup (Alternative to Docker):**
+    *   If you are not using Docker, you can set up the frontend manually:
+        *   Install dependencies:
 
-The application should be accessible at `http://localhost:5173` (or the port specified by Vite).
+10. **Start the frontend development server (Manual Setup):**
+
+        ```bash
+        cd frontend
+        npm run dev
+        cd ..
+        ```
+
+        The application should be accessible at `http://localhost:5173` (or the port specified by Vite).
