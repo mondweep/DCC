@@ -20,7 +20,7 @@ interface Web3ContextType {
   disconnectWallet: () => void; // Add disconnect function type
   // Contract instances
   membershipContract: ethers.Contract | null;
-  governanceContract: ethers.Contract | null;
+  governanceContract: any;
   incomeManagementContract: ethers.Contract | null;
   paymentContract: ethers.Contract | null;
 }
@@ -85,8 +85,10 @@ export const Web3Provider: React.FC<Web3ProviderProps> = ({ children }) => {
       const newAccount = accounts[0];
       setAccount(newAccount);
       console.log('Account changed/connected:', newAccount);
-      if (provider) {
-        provider.getSigner().then(signer => {
+      if (provider && window.ethereum) {
+        const newProvider = new ethers.BrowserProvider(window.ethereum);
+        setProvider(newProvider); // Update the provider
+        newProvider.getSigner().then(signer => {
             setSigner(signer);
             // Status check will happen in the effect below that depends on signer/account
         }).catch(console.error);
