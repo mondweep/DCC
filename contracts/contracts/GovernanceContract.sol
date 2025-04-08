@@ -41,6 +41,7 @@ contract GovernanceContract is Ownable {
     event Voted(uint256 proposalId, address voter, bool support, uint256 weight);
     event ProposalExecuted(uint256 proposalId);
     event ProposalCanceled(uint256 proposalId); // If cancellation is implemented
+    event LogIsVotingMember(bool isVotingMember);
 
     constructor(
         address _membershipContractAddress,
@@ -105,7 +106,9 @@ contract GovernanceContract is Ownable {
 
      function vote(uint256 proposalId, bool support) public virtual {
         // TDD_ANCHOR: Test_Governance_Vote_Fail_NotVotingMember
-        require(membershipContract.isVotingMember(msg.sender), "Governance: Caller is not a voting member");
+        bool isVotingMember = membershipContract.isVotingMember(msg.sender);
+        emit LogIsVotingMember(isVotingMember);
+        require(isVotingMember, "Governance: Caller is not a voting member");
 
         Proposal storage proposal = proposals[proposalId];
 
