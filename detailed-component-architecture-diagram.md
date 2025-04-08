@@ -3,31 +3,57 @@
 ```mermaid
 graph LR
     subgraph Frontend
-        CreateProposal --> Web3Context: createProposal
-        ProposalList --> Web3Context: getProposals, voteProposal
-        App --> Web3Context: initializeWeb3
+        CreateProposal --> Web3Context:createProposal
+        ProposalList --> Web3Context:getProposals
+        ProposalList --> Web3Context:voteProposal
+        App --> Web3Context:initializeWeb3
     end
 
     subgraph Backend
-        GovernanceContract --o MembershipContract: interacts with
-        GovernanceContract --o IncomeManagementContract: interacts with
-        GovernanceContract --o PaymentContract: interacts with
+        GovernanceContract --o MembershipContract
+        GovernanceContract --o IncomeManagementContract
+        GovernanceContract --o PaymentContract
     end
 
-    Web3Context --> GovernanceContract: interacts with
-    Web3Context --> MembershipContract: interacts with
-    Web3Context --> IncomeManagementContract: interacts with
-    Web3Context --> PaymentContract: interacts with
+    Web3Context --> GovernanceContract
+    Web3Context --> MembershipContract
+    Web3Context --> IncomeManagementContract
+    Web3Context --> PaymentContract
 
     %% Flows
-    CreateProposal --> GovernanceContract: createProposal
-    ProposalList --> GovernanceContract: voteProposal
-    Web3Context --> MembershipContract: joinDCC
-    IncomeManagementContract --> PaymentContract: distributeProfits
-    PaymentContract --> PaymentContract: payConsultants
+    CreateProposal --> GovernanceContract:createProposal
+    ProposalList --> GovernanceContract:voteProposal
+    Web3Context --> MembershipContract:joinDCC
+    IncomeManagementContract --> PaymentContract:distributeProfits
+    PaymentContract --> PaymentContract:payConsultants
 
     style Frontend fill:#f9f,stroke:#333,stroke-width:2px
     style Backend fill:#ccf,stroke:#333,stroke-width:2px
+
+    linkStyle 0,3,6 stroke-dasharray:5 5
+    linkStyle 1,4,7 stroke-dasharray:5 5
+    linkStyle 2,5,8 stroke-dasharray:5 5
+    linkStyle 0 stroke-width:2px
+    linkStyle 1 stroke-width:2px
+    linkStyle 2 stroke-width:2px
+    linkStyle 3 stroke-width:2px
+    linkStyle 4 stroke-width:2px
+    linkStyle 5 stroke-width:2px
+    linkStyle 6 stroke-width:2px
+    linkStyle 7 stroke-width:2px
+    linkStyle 8 stroke-width:2px
+
+    subgraph Interactions
+        direction LR
+        GovernanceContract -- "interacts with" --> MembershipContract
+        GovernanceContract -- "interacts with" --> IncomeManagementContract
+        GovernanceContract -- "interacts with" --> PaymentContract
+        Web3Context -- "interacts with" --> GovernanceContract
+        Web3Context -- "interacts with" --> MembershipContract
+        Web3Context -- "interacts with" --> IncomeManagementContract
+        Web3Context -- "interacts with" --> PaymentContract
+    end
+
 ```
 
 ## Explanation
